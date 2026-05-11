@@ -119,9 +119,10 @@ public static class Paths
             if (!Directory.Exists(GameDataPath))
                 GameDataPath = Path.Combine(GameRootPath, "Data");
         }
-        
-        if (string.IsNullOrEmpty(GameDataPath) || !Directory.Exists(GameDataPath))
-            throw new DirectoryNotFoundException("Failed to extract valid GameDataPath from executablePath: " + executablePath);
+
+        // NOTE (BepInExSaS): Do NOT throw if GameDataPath doesn't exist.
+        // Salt and Sacrifice is a MonoGame game and has no Unity-style _Data folder.
+        // The NET Framework Launcher path works fine without a valid GameDataPath.
 
         ManagedPath = managedPath ?? Path.Combine(GameDataPath, "Managed");
         BepInExRootPath = bepinRootPath ?? Path.Combine(GameRootPath, "BepInEx");
